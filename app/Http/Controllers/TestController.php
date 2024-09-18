@@ -12,11 +12,15 @@ class TestController extends Controller
     }
 
     function despedir(){
-        echo "Adios!";
+        echo "Adios! con laravel y rutas";
     }
 
     //retornando una vista
     function getVista(){
         return view('test');
     }
+
+    //console (backend)
+    //web (frontend / backend)
+    //api (backend)
 }

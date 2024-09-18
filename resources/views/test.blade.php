@@ -12,7 +12,7 @@
     }
 </style>
 <body>
-    <h1>Hola desde Laravel :)</h1>
+    <h1>Hola desde Laravel :</h1>
 
     {{-- @if (true)
         <!--- code -->
@@ -26,15 +26,13 @@
 
 
     <?php 
-        if(true){
-            //code..
-        }
-
-        foreach(){
+        // if(true){
+        //     //code..
+        // }
     ?>
         <tr>
-            <td><?php echo $tarea['titulo']; ?></td>
+            <td><?php //echo $tarea['titulo']; ?></td>
         </tr>
-    <?php } ?> --}}
+    <?php //} ?>
 </body>
 </html>

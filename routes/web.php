@@ -1,10 +1,11 @@
 <?php
+//namespace
 
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 //node_modules
 Route::get('/', function () {
-    return view('test');
+    return view('welcome');
 });
 
 //creando otra vista
@@ -16,9 +17,14 @@ Route::get('/bienvenida', function () {
 Route::get('/mensaje', [TestController::class, 'saludar']);
 
 Route::get('/test', [TestController::class, 'getVista']);
+/**
+ * peticiones http: get, post, put, delete, patch
+ */
+Route::get('/despedida', [TestController::class, 'despedir']);
 
 /**
  * web => manejamos proyectos tanto frontend y backend
  * api => manejamos la parte backend
  * console => manejamos un proyecto en consola
  */
+/**aqui comento Isaac */

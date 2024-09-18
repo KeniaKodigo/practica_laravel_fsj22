@@ -17,7 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone_number');
             $table->rememberToken();
+            /** 
+             * timestamps = verifica de tiempo de los registros de la tabla
+             * crear 2 campos
+             * //captura la fecha del nuevo registro
+             * created_at = capturar fecha (17-09-2024 - hora)
+             * //captura la fecha si actualizamos un registro
+             * updated_at = capturar fecha (25-09-2024 - hora)
+             */
             $table->timestamps();
         });
 
