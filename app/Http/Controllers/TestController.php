@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -18,6 +19,13 @@ class TestController extends Controller
     //retornando una vista
     function getVista(){
         return view('test');
+    }
+
+    function getUsers(){
+        //select * from users
+        $users = User::all(); //[]
+        
+        return response()->json($users);
     }
 
     //console (backend)
