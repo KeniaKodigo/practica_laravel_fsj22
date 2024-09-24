@@ -24,6 +24,8 @@ Route::get('/despedida', [TestController::class, 'despedir']);
 
 Route::get('/usuarios', [TestController::class, 'getUsers']);
 
+// Route::get('/bookings', [TestController::class, 'testBookingsQuery']);
+
 /**
  * web => manejamos proyectos tanto frontend y backend
  * api => manejamos la parte backend
