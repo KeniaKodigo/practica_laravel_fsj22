@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accomodations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AccomodationsController extends Controller
 {
@@ -37,15 +38,67 @@ class AccomodationsController extends Controller
     //metodo para registrar un alojamiento
     public function store(Request $request){
 
+        //validar entrada de datos
+        $validator = Validator::make($request->all(), [
+            //reglas para cada entrada de dato
+            'name' => 'required|string|max:70',
+            'address' => 'required|string|max:100',
+            'description' => 'required|string',
+            'image' => 'required|string'
+        ]);
+
+        //en base a las regla de validaciones verificar si se cumple o no se cumple
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
         //guardando un alojamiento (INSERT INTO....)
         //tarea = new Tarea();
         $accomodation = new Accomodations();
-        $accomodation->name = $request->input('name');
-        $accomodation->address = $request->input('address');
-        $accomodation->description = $request->input('description');
-        $accomodation->image = $request->input('image');
+        $accomodation->name = $request->input('name'); //name
+        $accomodation->address = $request->input('address'); //name
+        $accomodation->description = $request->input('description'); //name
+        $accomodation->image = $request->input('image'); //name
         $accomodation->save();
 
         return response()->json(['message' => 'Successfully registered'], 201);
+    }
+
+    //metodo para actualizar un alojamiento
+    public function update(Request $request, $id){
+        //validar entrada de datos
+        $validator = Validator::make($request->all(), [
+            //reglas para cada entrada de dato
+            'name' => 'required|string|max:70',
+            'address' => 'required|string|max:100',
+            'description' => 'required|string',
+            'image' => 'required|string'
+        ]);
+
+        //en base a las regla de validaciones verificar si se cumple o no se cumple
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        //actualizar (update table set campo = valor ... where id = ?)
+        //metodo para encontrar un registro por su id
+        $accomodation = Accomodations::find($id); //{}
+        if($accomodation != null){
+            $accomodation->name = $request->input('name'); //name
+            $accomodation->address = $request->input('address'); //name
+            $accomodation->description = $request->input('description'); //name
+            $accomodation->image = $request->input('image'); //name
+            $accomodation->update();
+
+            return response()->json(['message' => 'correctly updated'], 200);
+        }
+        
+        return response()->json(['message' => 'Accomodation not found'], 400);
     }
 }
