@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bookings;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -124,17 +125,63 @@ class BookingController extends Controller
 
         //select * from bookings where accomodation_id = 24 AND check_out_date between '2024-09-01' AND '2024-11-30' 
 
+        //query builder
         $query = Bookings::where('accomodation_id',$id_accomodation);
         //validando si la persona ingreso las fechas
         if($request->has('start_date') && $request->has('end_date')){
             //si la persona ingreso las fechas, agregamos en la consulta sql el rango de fechas
-            $start_date = $request->input('start_date'); //2024-12-10
-            $end_date = $request->input('end_date'); //2024-12-31
 
+            //parse (formatear la fecha utilizando la libreria Carbon)
+            $start_date = Carbon::parse($request->input('start_date')); //2024-12-10
+            $end_date = Carbon::parse($request->input('end_date')); //2024-12-31
+            // echo $start_date;
+            // echo $end_date;
+            
+            //$test_date = $start_date->diffInMonths($end_date);
+            //echo "\nPrueba: $test_date";
+            //diffInMonths
+            if($start_date->diffInMonths($end_date) > 3){
+                return response()->json(['error' => 'The date range cannot exceed 3 months'], 422);
+            }
             $query->whereBetween('check_out_date', [$start_date, $end_date]);
         }
 
         $bookings = $query->get(); //[]
-        return response()->json($bookings, 200);
+        //if(count($bookings) > 0)
+        if($bookings->count() > 0){
+            return response()->json($bookings, 200);
+        }
+        return response()->json(['message' => 'No bookings at this time'], 400);
+    }
+
+
+    //Autorizacion Basica, metodo para ver las reservaciones por usuario
+    public function get_bookings_by_user(Request $request){
+        $token = $request->header('Authorization');
+
+        //echo $token;
+        //comparar el token de autorizacion con los token de los usuarios
+        $users = User::all(); //[]
+        foreach($users as $user){
+            //cada usuario va tener un token
+            $credentials = base64_encode($user['email'].":".$user['password']);
+            $tokenExpected = "Basic " . $credentials;
+            // echo $user['name'] . "<br>";
+            // echo $tokenExpected . "<br>";
+            if($token == $tokenExpected){
+                //ver todas las reservacion por usuario
+                //select * from bookings where user_id = ?
+                $bookings = Bookings::where('user_id', $user['id'])->get();
+                if($bookings->count() > 0){
+                    return response()->json($bookings, 200);
+                }
+
+                return response()->json(['message'=> 'No bookings'], 400);
+            }
+        }
+
+        //No esta autorizada
+        return response()->json(['message' => 'Invalid Credentials'], 401);
+        //echo $token;
     }
 }

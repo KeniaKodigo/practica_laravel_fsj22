@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccomodationsController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TestController;
 use App\Models\Bookings;
 use Illuminate\Http\Request;
@@ -29,3 +30,9 @@ Route::get('/V1/bookings', [BookingController::class, 'get_bookings']);
 Route::get('/V1/bookings_by_year/{year?}', [BookingController::class, 'get_bookings_by_year']);
 
 Route::get('/V1/bookings/calendar/{id_accomodation}', [BookingController::class, 'calendar_accomodation_bookings']);
+
+//Ruta con autorizacion basica
+Route::get('/V1/bookings_by_user', [BookingController::class, 'get_bookings_by_user']);
+
+//Ruta para el login
+Route::post('/V1/login', [LoginController::class, 'login']);
