@@ -9,11 +9,14 @@ class LoginController extends Controller
 {
     public function login(Request $request){
         $email = $request->input('email');
-        $passowrd = $request->input('passowrd');
+        //estaba mal escrito
+        $passowrd = $request->input('password');
 
         //tengo que validar que el correo y la password existan en la base de datos
         //select * from users where email = $email and password...
-        $user = User::where('email',$email)->where('password',$passowrd)->first(); //{}
+        $user = User::where('email',$email)->where('password','=',$passowrd)->first(); //{}
+
+        //return response()->json($user);
 
         //si el usuario existe en la bd, creamos su token
         if($user){
