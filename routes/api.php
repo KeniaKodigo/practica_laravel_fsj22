@@ -14,12 +14,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 //Ruta protegidas por medio de sanctum (agrupar) (tokens)
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/V1/bookings', [BookingController::class, 'get_bookings']);
-    //declaramos una ruta con un parametro opcional (?)
-    Route::get('/V1/bookings_by_year/{year?}', [BookingController::class, 'get_bookings_by_year']);
-    Route::get('/V1/bookings/calendar/{id_accomodation}', [BookingController::class, 'calendar_accomodation_bookings']);
-});
+// Route::middleware('auth:sanctum')->group(function() {
+//     Route::get('/V1/bookings', [BookingController::class, 'get_bookings']);
+//     //declaramos una ruta con un parametro opcional (?)
+//     Route::get('/V1/bookings_by_year/{year?}', [BookingController::class, 'get_bookings_by_year']);
+//     Route::get('/V1/bookings/calendar/{id_accomodation}', [BookingController::class, 'calendar_accomodation_bookings']);
+// });
 
 //Crear un middleware personalizado para proteger rutas (API-KEY) 
 Route::middleware(bookingsApiToken::class)->group(function() {

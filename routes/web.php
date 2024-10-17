@@ -9,9 +9,9 @@ Route::get('/', function () {
 });
 
 //creando otra vista
-Route::get('/bienvenida', function () {
-    return view('welcome');
-});
+// Route::get('/bienvenida', function () {
+//     return view('welcome');
+// });
 
 //Ruta que se utiliza para ejecutar una funcion desde un controlador
 Route::get('/mensaje', [TestController::class, 'saludar']);
